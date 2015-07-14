@@ -1,0 +1,2 @@
+	CS	ADM	=hyperlink("http://magicweb/dts/REQUESTS/CS/ADM/9057.htm",9057)	INFCE: ROL Segment should be send out regardless of HL7 Version	Rejected	3		6.0R, 6.07R, 6.08R			07/13/2015												D
+	CS	LAB	=hyperlink("http://magicweb/dts/REQUESTS/CS/LAB/13141.htm",13141)	INFCE: CS LAB 12508 causes PV1|1 to populate as the msg gen mnemonic	Rejected	3		6.0R, 6.07R, 6.1R, 6.14R, 6.15R			07/13/2015												D
