@@ -93,8 +93,10 @@ namespace DTSListSuite
             string[] dtsArray = { "" };
             while (!parser.EndOfData)
                 dtsArray = parser.ReadFields();
+            // Find DTS number
             string dtsNum = dtsArray[3].Substring(dtsArray[3].IndexOf(dtsArray[2]) + dtsArray[2].Length + 1, dtsArray[3].Length - dtsArray[3].IndexOf(dtsArray[2]) - dtsArray[2].Length - 1);
-                        dtsNum = dtsNum.Substring(0, dtsNum.IndexOf("."));
+            dtsNum = dtsNum.Substring(0, dtsNum.IndexOf("."));
+            // Product + Appl + DTS Number
             DtsConc = dtsArray[1] + dtsArray[2] + dtsNum;
             return DtsConc;
         }
@@ -144,7 +146,7 @@ namespace DTSListSuite
             List<string> dtsListToDel = new List<string>();
             foreach (string deletion in delList)
             {
-
+                // Create list of DTS's to be deleted
                 dtsListToDel.Add(ParseForDeletes(deletion));
             }
             
@@ -152,7 +154,8 @@ namespace DTSListSuite
             {
                 string dtsNum = item[3].Substring(item[3].IndexOf(item[2]) + item[2].Length + 1, item[3].Length - item[3].IndexOf(item[2]) - item[2].Length - 1);
                 dtsNum = dtsNum.Substring(0, dtsNum.IndexOf("."));
-                //dtsListToDel.Contains(item[1]+item[2]+dtsNum)
+                // Compare current DTS to delete list. If the current DTS list is in the delete list,
+                // do not all it to the output files
                 if (!dtsListToDel.Contains(item[1] + item[2] + dtsNum))
                 {
                     if(item[23]=="D")
@@ -245,9 +248,9 @@ namespace DTSListSuite
             results[22] = "";
 
             string MostRecent = "";
-            if (results[5] == "Rejected" || results[5] == "Reclass")
+            if (results[5].IndexOf("Rejected")!=-1 || results[5].IndexOf("Reclass")!=-1)
                 results[23] = "D";
-            else if (results[5] == "Completed")
+            else if (results[5].IndexOf("Completed")!=-1)
             {
                 MostRecent = DeleteDate(dtsHTML); // Returns most recent date
 
@@ -281,12 +284,9 @@ namespace DTSListSuite
                         results[23] = "";
                 }
                 else
-                        results[23] = "";
-
-                
-                results[23] = "";
+                    results[23] = "";
             }
-            else
+            else // If not complete, rejected, or recleassed, 
                 results[23] = "";
             
         }
