@@ -247,6 +247,8 @@ namespace DTSListSuite
             results[21] = "";
             results[22] = "";
 
+            // results[23] if "D". will be added to maydeleteoutput;
+            //             else, will not be added to aydeleteoutput
             string MostRecent = "";
             if (results[5].IndexOf("Rejected")!=-1 || results[5].IndexOf("Reclass")!=-1)
                 results[23] = "D";
@@ -259,6 +261,7 @@ namespace DTSListSuite
                 int yr = Convert.ToInt32(today.Substring(6, 2)) - 2; // Current year - 2
                 string CompareDate = today.Substring(0, 6) + yr.ToString();  // Two years before today
 
+                // Comparing the dates in order to see if the DTS is older than the Compare date (2 years before run date)
                 string year = CompareDateString(MostRecent.Substring(6, 2), CompareDate.Substring(6, 2));
                 string month = CompareDateString(MostRecent.Substring(0, 2), CompareDate.Substring(0, 2));
                 string day = CompareDateString(MostRecent.Substring(3, 2), CompareDate.Substring(3, 2));
@@ -286,7 +289,7 @@ namespace DTSListSuite
                 else
                     results[23] = "";
             }
-            else // If not complete, rejected, or recleassed, 
+            else // If not complete, rejected, or recleassed, do not add to maydeleteoutput
                 results[23] = "";
             
         }
@@ -308,12 +311,13 @@ namespace DTSListSuite
                 int j = current.IndexOf("data");
                 if (j != -1)
                 {
-
+                    // Date from data tag
                     string datadate = current.Substring(j + 6, 8);
-                    if (date == "")
+                    if (date == "") //the first datadate should be set to date
                         date = datadate;
                     else
                     {
+                        // only assign datadate to date if it is more recent
                         string year = CompareDateString(date.Substring(6,2),datadate.Substring(6,2));
                         string month = CompareDateString(date.Substring(0, 2), datadate.Substring(0, 2));
                         string day = CompareDateString(date.Substring(3, 2), datadate.Substring(3, 2));
@@ -333,16 +337,10 @@ namespace DTSListSuite
                                 date = datadate;
                         }
                     }
-                    //grab date
-                    // if date nil, equal date
-                    //otherwise, compare
                 }
                 
                 i = current.IndexOf("http://magicweb/dts/pipelines/");
             }
-
-            //check vs today's date
-
 
                 return (date);
         }
